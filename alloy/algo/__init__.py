@@ -1,1 +1,1 @@
-from graph_search import *
+from .graph_search import *

@@ -1,2 +1,2 @@
 import math
-import algo
+from .algo import *
