@@ -4,7 +4,7 @@
 """
 import numpy as np
 from pyquaternion import Quaternion
-from basic import * 
+from .basic import * 
 
 __all__ = ['skew_symmetric_matrix', 'rotation_matrix_from_axis_angle', 'axis_angles_from_rotation_matrix',
     'transformation_matrix_from_array', 'inverse_transformation_matrix'

@@ -1,9 +1,9 @@
 
 
 
-from basic import *
-from vector_2D_op import *
-from vector_3D_op import *
+from .basic import *
+from .vector_2D_op import *
+from .vector_3D_op import *
 
 __all__ = []
 __all__ += basic.__all__

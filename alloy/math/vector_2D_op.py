@@ -3,7 +3,7 @@
 Common 2D Vector Operations
 """
 
-from basic import *
+from .basic import *
 import numpy as np
 
 __all__ = [
