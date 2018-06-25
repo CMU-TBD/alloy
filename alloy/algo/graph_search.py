@@ -46,7 +46,9 @@ def dijkstra_search(edge_func, child_func, start_id, end_id):
         #get the parent ID
         parent_id = parent_list[curr_id]
         #remove the parent from the child_func if already exist
-        children.remove(parent_id)
+        if parent_id in children:
+            children.remove(parent_id)
+            
         for child_id in children:
             #calculate the cost to move from the current id to the child id
             cost = edge_func(parent_id, curr_id, child_id)
