@@ -5,7 +5,8 @@ import rospy
 
 __all__ = [
     'create_ros_header',
-    'resolve_res_path'
+    'resolve_res_path',
+    'get_res_path'
 ]
 
 def create_ros_header(rospy, frame=""):
@@ -28,6 +29,19 @@ def create_ros_header(rospy, frame=""):
     msg.frame_id = frame
 
     return msg
+
+
+def get_res_path(package_name, res_path=None):
+    rp = RosPack()
+    try:
+        dirpath = rp.get_path(package_name)
+    except ResourceNotFound as err:
+        rospy.logwarn('unable find given rospackage in "get_res_path"')
+        return None
+    if res_path is None:
+        res_path = 'res'
+    return os.path.join(dirpath,res_path)
+
 
 def resolve_res_path(path, package_name=None, res_path=None):
     """

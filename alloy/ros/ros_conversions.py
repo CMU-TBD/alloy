@@ -24,20 +24,21 @@ def dict_to_pose(dict_input):
     p = Pose()
     if 'position' not in dict_input or 'orientation' not in dict_input:
         raise SyntaxError("position or orientation doesn't exist in dict")
-    if 'x' in dict_input["position"]
+    if 'x' in dict_input["position"]:
         p.position.x = dict_input["position"]["x"]
-    if 'y' in dict_input["position"]
+    if 'y' in dict_input["position"]:
         p.position.y = dict_input["position"]["y"]
-    if 'z' in dict_input["position"]
+    if 'z' in dict_input["position"]:
         p.position.z = dict_input["position"]["z"]
-    if 'x' in dict_input["orientation"]
+    if 'x' in dict_input["orientation"]:
         p.orientation.x = dict_input["orientation"]["x"]
-    if 'y' in dict_input["orientation"]
+    if 'y' in dict_input["orientation"]:
         p.orientation.y = dict_input["orientation"]["y"]
-    if 'z' in dict_input["orientation"]
+    if 'z' in dict_input["orientation"]:
         p.orientation.z = dict_input["orientation"]["z"]
-    if 'w' in dict_input["orientation"]
+    if 'w' in dict_input["orientation"]:
         p.orientation.w = dict_input["orientation"]["w"]
+    return p
 
 def numpy_to_wrench(arr):
     """Convert numpy array into wrench
