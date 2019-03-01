@@ -7,7 +7,8 @@ from .basic import *
 import numpy as np
 
 __all__ = [
-    'clip_radian_rotation', 'find_rotation', 'project_point_onto_line', 'distance_to_line'
+    'clip_radian_rotation', 'find_rotation', 'project_point_onto_line', 'distance_to_line',
+    'find_theta_distance','deg_to_rot_rad'
 ]
 
 def clip_radian_rotation(rad):
@@ -30,6 +31,36 @@ def clip_radian_rotation(rad):
         return (np.pi*2) + rad
     else:
         return rad
+
+def deg_to_rot_rad(deg):
+    """Converts degree to (-pi, pi] range where 270 is -pi/2 and 90 is pi/2
+    """
+    rad = np.deg2rad(deg)
+    return clip_radian_rotation(rad)
+
+
+def find_theta_distance(t1, t2):
+    """Find the shortest rotation distance between theta1 and theta2. (-pi,pi)
+    """
+    if t1 > 0 and t2 < 0:
+        #through zero 
+        dist1 = np.abs(t2) + t1
+        #through the other side
+        dist2 = (np.pi + t2) + (np.pi - t1)
+        val = np.min([dist1, dist2])
+    elif t1 < 0 and t2 > 0:
+        #through zero 
+        dist1 = np.abs(t1) + t2
+        #through the other side
+        dist2 = (np.pi + t1) + (np.pi - t2)
+        val =  np.min([dist1, dist2])        
+    else:
+        #they are on the same side
+        val =  np.abs(t1 - t2)
+    if val > np.pi:
+	    raise RuntimeException(t1,t2)
+    return val
+
 
 def find_rotation(v1, v2):
     """

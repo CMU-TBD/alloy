@@ -7,7 +7,8 @@ from pyquaternion import Quaternion
 from .basic import * 
 
 __all__ = ['skew_symmetric_matrix', 'rotation_matrix_from_axis_angle', 'axis_angles_from_rotation_matrix',
-    'transformation_matrix_from_array', 'inverse_transformation_matrix'
+    'transformation_matrix_from_array', 'inverse_transformation_matrix','ypr_from_quaterion',
+    'rot2D_from_quaternion'
 ]
 
 def skew_symmetric_matrix(vec):
@@ -69,6 +70,20 @@ def transformation_matrix_from_array(arr):
     quaternion = Quaternion(arr[3:]) #make quaternions
     trans[0:3,0:3] = quaternion.rotation_matrix
     return trans
+
+def ypr_from_quaterion(arr):
+    """Calculate the yaw,pitch,roll from a numpy quaternion [w,x,y,z]
+    """
+    quaternion = Quaternion(arr)
+    yaw, pitch,roll = quaternion.yaw_pitch_roll
+    return yaw, pitch, roll
+
+def rot2D_from_quaternion(arr):
+    """ Calculate the 2D rotation (yaw) from a numpy quaternion [w,x,y,z]
+    """
+    yaw, pitch, roll = ypr_from_quaterion(arr)
+    return yaw
+    
 
 def inverse_transformation_matrix(m):
     """Inverse a transformation matrix
