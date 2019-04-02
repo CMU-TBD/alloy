@@ -52,7 +52,7 @@ class PrioritySearchQueue(SearchQueue):
     def update(self, obj, **kwargs):
         for h in self._pheap:
             if h[1] == obj:
-                self._pheap.remove(obj)
+                self._pheap.remove(h)
                 break
         heapq.heappush(self._pheap, (kwargs['cost'], obj))
 
