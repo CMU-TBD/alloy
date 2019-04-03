@@ -10,7 +10,7 @@ else:
 import matplotlib.pyplot as plt
 
 
-def draw_point_on_img(canvas, pt, color):
+def draw_point_on_img(canvas, pt_, color):
     """ Given a 2D array canvas, color a pixel according to the x,y position.
 
     parameters:
@@ -27,6 +27,8 @@ def draw_point_on_img(canvas, pt, color):
 
     """
     
+    pt = (int(pt_[0]),int(pt_[1]))
+
     if pt[0] < np.size(canvas, 1) and pt[0] >= 0 and pt[1] < np.size(canvas, 0) and pt[1] >= 0:
         canvas[pt[1], pt[0],:] = color
         return True
@@ -37,9 +39,12 @@ class CheckableQueue(queue.Queue): # or OrderedSetQueue
         with self.mutex:
             return item in self.queue
 
-def draw_circle_on_img(canvas, center, radius=2,color=[0,255,255]):
+def draw_circle_on_img(canvas, center_, radius=2,color=[0,255,255]):
     """Draw a circle with given radius and color on the canvas with (x,y) center
     """
+
+    center = (int(center_[0]),int(center_[1]))
+
 
     search_queue = CheckableQueue()
     search_queue.put(center)
@@ -72,12 +77,16 @@ def draw_rectangle_on_img(canvas, pt1, pt2, color=[0,0,0]):
             draw_point_on_img(canvas, x, y, color)
 
 
-def draw_line_on_img(canvas, start_pt, end_pt, color=[0,1,0]):
+def draw_line_on_img(canvas, start_pt_, end_pt_, color=[0,1,0]):
     """
     Given two points, this algorithm will plot that line
     modified from 
     http://www.roguebasin.com/index.php?title=Bresenham%27s_Line_Algorithm#Python
     """
+
+    start_pt = (int(start_pt_[0]),int(start_pt_[1]))
+    end_pt = (int(end_pt_[0]),int(end_pt_[1]))
+
 
     delta_x = end_pt[0] - start_pt[0]
     delta_y = end_pt[1] - start_pt[1]

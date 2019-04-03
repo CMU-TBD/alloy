@@ -4,11 +4,14 @@
 try:
     import rospy
     import basic
+    import ros_conversions
     #import everything else if possible
     from basic import *
+    from ros_conversions import *
 
     __all__ = []
     __all__ += basic.__all__
+    __all__ += ros_conversions.__all__
 
 except ImportError:
     raise RuntimeError('Unable to find ROS specific libraries, you maybe trying to reference this sub-module on a none ROS machine')
