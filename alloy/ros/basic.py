@@ -5,7 +5,9 @@ import rospy
 
 __all__ = [
     'create_ros_header',
-    'resolve_res_path'
+    'resolve_res_path',
+    'create_res_dir',
+    'get_res_path'
 ]
 
 def create_ros_header(rospy, frame=""):
@@ -29,6 +31,57 @@ def create_ros_header(rospy, frame=""):
 
     return msg
 
+def create_res_dir(package_name):
+    """
+    Create a folder call res at the root of the given ros package
+
+    parameters
+    ----------
+    package_name: string  
+        ROS package name
+
+    returns
+    -------
+    string
+        the path of the res folder; None if package was unresolvable.
+
+    """
+    rp = RosPack()
+    try:
+        dirpath = rp.get_path(package_name)
+        res_path = os.path.join(dirpath,"res")
+        os.mkdir(res_path)
+        return res_path
+    except ResourceNotFound as err:
+        rospy.logerror('unable find given rospackage in "create_res_dir"')
+    return None
+
+def get_res_path(package_name, res_path="res"):
+    """
+    Return the resource path for this package
+
+    parameters
+    ----------
+    package_name: string   
+        ROS package name
+
+    res_path: string (optional)  
+        the name of the res folder in this package
+
+    returns
+    -------
+    string
+        the path of the res folder; None if package was unresolvable.
+
+    """
+    rp = RosPack()
+    try:
+        dirpath = rp.get_path(package_name)
+        return os.path.join(dirpath, res_path)
+    except ResourceNotFound as err:
+        rospy.logerror('unable find given rospackage in "create_res_dir"')
+    return None
+
 def resolve_res_path(path, package_name=None, res_path=None):
     """
     Follow a list of rules to find this path.
@@ -42,7 +95,6 @@ def resolve_res_path(path, package_name=None, res_path=None):
         the complete path or just the filename
     package_name: string (optional)  
         ROS package name
-
     res_path: string (optional)  
         resource directory in ROS package
 
