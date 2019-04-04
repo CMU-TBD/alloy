@@ -1,5 +1,7 @@
 
 
+import warnings
+
 #test if ros exist
 try:
     import rospy
@@ -14,7 +16,7 @@ try:
     __all__ += ros_conversions.__all__
 
 except ImportError:
-    raise RuntimeError('Unable to find ROS specific libraries, you maybe trying to reference this sub-module on a none ROS machine')
+    warnings.warn(RuntimeWarning('Unable to find ROS specific libraries, you maybe trying to reference this sub-module on a none ROS machine'))
 
 
 
