@@ -51,7 +51,7 @@ def numpy_to_image(image_numpy, encoding_name="bgr8", header=None):
     image_shape = np.shape(image_numpy)
     image_dict['width'] = image_shape[1]
     image_dict['height'] = image_shape[0]
-    image_num_channels = image_shape[2]
+    image_num_channels = image_shape[2] if len(image_shape) >= 2 else 1
     #put in the data
 
     if sys.version_info >= (3,0):
@@ -68,5 +68,5 @@ def numpy_to_image(image_numpy, encoding_name="bgr8", header=None):
 
     image_dict['encoding'] = encoding_name
     image_dict['is_bigendian'] = 0
-    image_dict['step'] = image_shape[1] * image_shape[2]
+    image_dict['step'] = image_shape[1] * image_num_channels
     return image_dict
