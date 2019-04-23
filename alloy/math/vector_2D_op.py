@@ -8,7 +8,7 @@ import numpy as np
 
 __all__ = [
     'clip_radian_rotation', 'find_rotation', 'project_point_onto_line', 'distance_to_line',
-    'find_theta_distance','deg_to_rot_rad'
+    'find_theta_distance','deg_to_rot_rad',"convert_2D_rot_to_clock"
 ]
 
 def clip_radian_rotation(rad):
@@ -38,6 +38,28 @@ def deg_to_rot_rad(deg):
     rad = np.deg2rad(deg)
     return clip_radian_rotation(rad)
 
+def convert_2D_rot_to_clock(rad):
+    """Conver the rotation in rad (-pi, pi] to integer clock rotation where 0 is 3'oclock
+    pi/2 is 12 o clock
+    """
+    #pass
+    clock_hand = -(rad/0.523599)
+    if clock_hand < 0:
+        clock_hand += 12
+    if clock_hand > 12:
+        clock_hand -= 12
+    clock_hand = np.rint(clock_hand)
+    return clock_hand
+
+
+    # degrees = np.rad2deg(rot)
+    #     clock_hand = (degrees/30)
+    #     if clock_hand < 0:
+    #         clock_hand += 12
+    #     #round the clock hand
+    #     clock_hand = np.rint(clock_hand)
+    #     return clock_hand
+    # raise NotImplementedError()
 
 def find_theta_distance(t1, t2):
     """Find the shortest rotation distance between theta1 and theta2. (-pi,pi)
