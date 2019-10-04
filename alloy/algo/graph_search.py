@@ -7,6 +7,10 @@ if is_py2:
 else:
     import queue as queue
 
+__all__ = [
+    'dijkstra_search', 'breath_first_search', 'depth_first_search'
+]
+
 
 class SearchQueue(object):
     """Interface that provide different version of search
@@ -33,7 +37,7 @@ class SearchQueue(object):
         pass
 
     def __len__(self):
-        raise NotImplementedError()
+        raise NotImplementedError("Please use one of the base class")
 
 class PrioritySearchQueue(SearchQueue):
 
@@ -138,7 +142,7 @@ def _base_search(queue_type, start_id, end_id, child_func, edge_func=None):
         #remove the parent from the child_func if already exist
         if parent_id in children:
             children.remove(parent_id)
-            
+
         for child_id in children:
             #calculate the cost to move from the current id to the child id
             if edge_func:
@@ -218,6 +222,8 @@ def breath_first_search(start, goal, child_func):
 def depth_first_search(start, goal, child_func):
     """Search for the first path between the start and goal using depth-first search. Search using the ID of each node
     and child function that returns all the children of given node.
+
+    Note: The order of children node evaluated starts from the end of the node and not the front
 
     paramaters
     ----------
