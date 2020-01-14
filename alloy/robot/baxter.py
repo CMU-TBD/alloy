@@ -15,6 +15,7 @@ def convert_joint_angles_to_numpy(joint_angles, joint_names):
     """Convert the dictionary based joint angles given by baxter interface to
     a numpy array according to the given joint names
     """
+    
     arr = np.zeros(7)
     for i, key in enumerate(joint_names):
         arr[i] = joint_angles[key]
