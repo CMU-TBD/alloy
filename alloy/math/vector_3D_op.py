@@ -1,3 +1,5 @@
+# Copyright - Transporation, Bots, and Disability Lab - Carnegie Mellon University
+# Released under MIT License
 
 """
 3D(R^3) Vector operations
