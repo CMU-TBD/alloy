@@ -1,3 +1,6 @@
+# Copyright - Transporation, Bots, and Disability Lab - Carnegie Mellon University
+# Released under MIT License
+
 """
 Common Operations/Codes that are re-written on Baxter
 """

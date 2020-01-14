@@ -1,3 +1,6 @@
+# Copyright - Transporation, Bots, and Disability Lab - Carnegie Mellon University
+# Released under MIT License
+
 import std_msgs.msg
 import os
 from rospkg import RosPack

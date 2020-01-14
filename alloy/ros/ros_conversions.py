@@ -1,3 +1,6 @@
+# Copyright - Transporation, Bots, and Disability Lab - Carnegie Mellon University
+# Released under MIT License
+
 """
 Different functions that convert Ros messages to Numpy array
 """

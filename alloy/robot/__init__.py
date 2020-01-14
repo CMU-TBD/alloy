@@ -1,6 +1,7 @@
-from baxter import *
-from ros_conversions import *
+# Copyright - Transporation, Bots, and Disability Lab - Carnegie Mellon University
+# Released under MIT License
+
+from .baxter import *
 
 __all__ = []
 __all__ += baxter.__all__
-__all__ += ros_conversions.__all__

@@ -1,4 +1,8 @@
-"""Convert Functions for roslibpy
+# Copyright - Transporation, Bots, and Disability Lab - Carnegie Mellon University
+# Released under MIT License
+
+"""
+Convert Functions for roslibpy
 """
 
 import numpy as np

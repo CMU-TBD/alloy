@@ -5,8 +5,8 @@ import warnings
 #test if ros exist
 try:
     import rospy
-    import basic
-    import ros_conversions
+    import .basic
+    import .ros_conversions
     #import everything else if possible
     from basic import *
     from ros_conversions import *
