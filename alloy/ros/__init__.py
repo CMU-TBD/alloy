@@ -5,11 +5,9 @@ import warnings
 #test if ros exist
 try:
     import rospy
-    import .basic
-    import .ros_conversions
     #import everything else if possible
-    from basic import *
-    from ros_conversions import *
+    from .basic import *
+    from .ros_conversions import *
 
     __all__ = []
     __all__ += basic.__all__

@@ -106,3 +106,24 @@ def pose_to_numpy(pose):
     arr[5] = pose.orientation.y
     arr[6] = pose.orientation.z
     return arr
+
+def transform_to_numpy(transform):
+    """Convert geometry_msgs/Transform to a Numpy array with 
+    format [(translation) (rotation[w,x,y,s])]
+    
+    Arguments:
+        transform {geometry_msgs/Transform} -- Transform message
+
+    Return:
+        numpy.array (7,0) describing the position and quaternion
+    """
+
+    arr = np.zeros((7,))
+    arr[0] = pose.translation.x
+    arr[1] = pose.translation.y
+    arr[2] = pose.translation.z
+    arr[3] = pose.rotation.w
+    arr[4] = pose.rotation.x
+    arr[5] = pose.rotation.y
+    arr[6] = pose.rotation.z
+    return arr
