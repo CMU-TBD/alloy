@@ -17,7 +17,7 @@ from geometry_msgs.msg import(
 
 __all__ = [
     'numpy_to_wrench','wrench_to_numpy','twist_to_numpy','numpy_to_twist',
-    'pose_to_numpy','dict_to_pose'
+    'pose_to_numpy','dict_to_pose','transform_to_numpy'
 ]
 
 def dict_to_pose(dict_input):
