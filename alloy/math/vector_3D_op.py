@@ -91,10 +91,10 @@ def inverse_transformation_matrix(m):
     """Inverse a transformation matrix
     """
     inv_rot = (m[0:3,0:3]).T
-    inv_m = m
-    inv_m[0:3,3] = -inv_rot.dot(m[0:3,3])
+    inv_m = np.eye(4)
+    inv_m[0:3,3] = -1 * (inv_rot.dot(m[0:3,3]))
     inv_m[0:3,0:3] = inv_rot
-    return m
+    return inv_m
 
 
 def main():
