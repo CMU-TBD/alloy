@@ -119,11 +119,11 @@ def transform_to_numpy(transform):
     """
 
     arr = np.zeros((7,))
-    arr[0] = pose.translation.x
-    arr[1] = pose.translation.y
-    arr[2] = pose.translation.z
-    arr[3] = pose.rotation.w
-    arr[4] = pose.rotation.x
-    arr[5] = pose.rotation.y
-    arr[6] = pose.rotation.z
+    arr[0] = transform.translation.x
+    arr[1] = transform.translation.y
+    arr[2] = transform.translation.z
+    arr[3] = transform.rotation.w
+    arr[4] = transform.rotation.x
+    arr[5] = transform.rotation.y
+    arr[6] = transform.rotation.z
     return arr

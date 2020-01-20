@@ -18,6 +18,15 @@ class Line():
         self.base = base
         self.direction = dir/np.linalg.norm(dir)
 
+    def point_at_t(self, t):
+        if t < 0:
+            raise Exception("t must be >= 0")
+        else:
+            return self.base + (self.direction * t)
+
+    def __str__(self):
+        return "Line - Point:{} Direction:{}".format(self.base, self.direction)
+
 """ Representation of a Ray
 """
 class Ray():
@@ -44,6 +53,9 @@ class Ray():
             # creates an empty ray
             pass
 
+    def __str__(self):
+        return "Ray - Origin:{} Direction:{}".format(self.origin, self.direction)
+
 """Representation of a 3D Box (Orient Bounding box)
 """
 class Box():
@@ -62,7 +74,6 @@ class Box():
         self.width = 0 # Y-axis
         self.height = 0 # Z-axis
         self.half_extents = np.zeros((3,))
-
 
         # Default orientation is axis aligned
         self.orientation = np.array([
@@ -93,6 +104,12 @@ class Box():
         else:
             # creates an empty box
             pass
+
+    def __str__(self):
+        exp = "Box - Center:{}".format(self.center)
+        exp += "\n Orieintation:{}".format(self.orientation)
+        exp += "length(x):{} width(y):{} height(z):{}".format(self.length, self.width, self.height)
+        return 
 
     def _create_from_points(self, min_points, max_points):
 
@@ -127,8 +144,6 @@ class Box():
 
         return np.all(np.less_equal(abs_corrected_point[0:3], self.half_extents))
     
-
-
 
 
     def distance_from_point(self, point: np.array):
@@ -498,5 +513,15 @@ class Box():
             for i in range(0,3):
                 if flipped_array[i]:
                     proj[i] *= -1
-            closest_line = original_corrected_base + corrected_direction * t
-            return dist, (T.dot(proj))[0:3], (T.dot(closest_line))[0:3]
+            return dist, (T.dot(proj))[0:3], t
+
+    def distance_from_ray(self, ray: Ray):
+        # implement Algorithm from Ch. 10 pg. 464 - Geometric tools for computer graphics (2003)
+
+        l = Line(ray.origin, ray.direction)    
+        dist, proj, t = self.distance_from_line(l)
+        if t < 0:
+            dist, proj = self.distance_from_point(ray.origin)
+            return dist, proj, 0 # the closet point is the origin 
+        else:
+            return dist, proj, t 

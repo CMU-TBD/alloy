@@ -73,7 +73,6 @@ class TestSpatialFunction(unittest.TestCase):
         line2 = Line((1,0,0),(1,1,0))
         d, proj, on_line = box1.distance_from_line(line1)
         self.assertTrue(box1.contains_point(proj))
-        np.testing.assert_array_equal(on_line, np.array([1,0,0]))
         self.assertEqual(d, 0)
         # parrallel but not connected 
         d, proj, on_line = box1.distance_from_line(Line((0,5,0), (1,0,1)))
