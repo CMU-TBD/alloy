@@ -106,9 +106,9 @@ class Box():
             pass
 
     def __str__(self):
-        exp = "Box - Center:{}".format(self.center)
-        exp += "\n Orieintation:{}".format(self.orientation)
-        exp += "length(x):{} width(y):{} height(z):{}".format(self.length, self.width, self.height)
+        exp = "Box -\tCenter:{}".format(self.center)
+        exp += "\nOrieintation:\n{}".format(self.orientation)
+        exp += "\nlength(x):{} width(y):{} height(z):{}".format(self.length, self.width, self.height)
         return exp
 
     def _create_from_points(self, min_points, max_points):
