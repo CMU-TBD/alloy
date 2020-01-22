@@ -1,20 +1,28 @@
+# Copyright - Transporation, Bots, and Disability Lab - Carnegie Mellon University
+# Released under MIT License
+
+
+import unittest
 from alloy.algo import depth_first_search, breath_first_search
 
-def main():
-    # a fake graph
-    def child_func(curr_tuple):
-        child_list = []
-        if curr_tuple[0] + 1 < 10:
-            child_list.append((curr_tuple[0]+1,curr_tuple[1]))
-        if curr_tuple[1] + 1 < 10:
-            child_list.append((curr_tuple[0], curr_tuple[1]+1))
-        if curr_tuple[0] + 1 < 10 and curr_tuple[1] + 1 < 10:
-            child_list.append((curr_tuple[0]+1, curr_tuple[1]+1))
-        return child_list
-    
-    print(depth_first_search((0,0),(5,3), child_func))
-    print(breath_first_search((0,0),(5,3), child_func))
+class TestSpatialFunction(unittest.TestCase):
+
+    def fake_child_func(self, curr_tuple):
+        # The curr_tuple is (x,y)
+        # The graphic starts with (0,0) and
+        # goes upwards (y+1) if -1,0,+1 X
+        # max size of 10
+        x = curr_tuple[0]
+        y = curr_tuple[1] + 1
+        if (y > 10):
+            return []
+        else:
+            return [(x-1,y),(x,y),(x+1,y)]
+
+    def test_breath_first_search(self):
+        print(breath_first_search((0,0),(2,3), self.fake_child_func))
+        print(depth_first_search((0,0),(2,3), self.fake_child_func))
 
 
-if __name__ == "__main__":
-    main()
+if __name__ == '__main__':
+    unittest.main()

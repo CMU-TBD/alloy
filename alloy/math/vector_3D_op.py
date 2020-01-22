@@ -61,7 +61,6 @@ def axis_angles_from_rotation_matrix(rot_mat):
     return q.axis, q.angle
 
 
-
 def transformation_matrix_from_array(arr):
     """Create a 3D Transformation matrix from an array that has 7 elements. 
     The first three elements is the [x,y,z] of the translation, the next four
@@ -87,9 +86,21 @@ def rot2D_from_quaternion(arr):
     return yaw
     
 
-def inverse_transformation_matrix(m):
-    """Inverse a transformation matrix
+def inverse_transformation_matrix(m: np.array) -> np.array:
+    """Find the inverse of a 3D transformation matrix (4,4), T from the given matrix M, such that
+    x = T * (M * x)
+    
+    Parameters
+    ----------
+    m : np.array
+        The original transformation matrix
+    
+    Returns
+    -------
+    np.array
+        The inverse of the transformation matrix
     """
+
     inv_rot = (m[0:3,0:3]).T
     inv_m = np.eye(4)
     inv_m[0:3,3] = -1 * (inv_rot.dot(m[0:3,3]))

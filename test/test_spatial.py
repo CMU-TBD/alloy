@@ -1,6 +1,11 @@
 import unittest
 
-from alloy.spatial.primitives import *
+import numpy as np
+from alloy.spatial.primitives import (
+    Box,
+    Line,
+    Ray
+)
 
 class TestSpatialFunction(unittest.TestCase):
 
