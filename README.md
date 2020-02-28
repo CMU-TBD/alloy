@@ -2,11 +2,10 @@
 Copyright (C) 2020 Transportation, Bots, and Disability Lab - Carnegie Mellon University  
 Licensed under the MIT license
 
+Latest Version: 0.1.0 (02/28/2020)  
 
 This is python library that provide commonly used functions in different areas of robotics. The current library consists of functions for *basic vector math operations on numpy*, *ROS math wrappers*, *Baxter related functions*, *Graph search implementations*, *Basic State Machines*. The library is developed for internal use but we welcome others to use it if they find it useful.
 
-# Version
-- 0.05 *Breaking Change*
 
 # Installation
 The best way to install this package is to clone/download the package and install it with
@@ -21,3 +20,8 @@ pip install alloylib
 However, that version will not be the most up-to-date version.
 
 # Changelog
+### 0.1.0 (02/28/2020)
+* Reorganized code to be in separate modules instead of all being in the same namespace.
+* Python3 only implementation.
+* Added unit test for all the code.
+
