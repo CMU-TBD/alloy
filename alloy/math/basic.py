@@ -11,6 +11,7 @@ __all__ = [
     'distance', 'is_close', 'is_same', 'normalize'
 ]
 
+
 def distance(p1, p2):
     """
     Return the euclidean distance between the two points
@@ -96,5 +97,5 @@ def bezier_curve(t, points):
 
     if len(points == 1):
         return points[0]
-    
+
     return bezier_curve(t, points[:-1]) * (1 - t) + bezier_curve(t, points[1:]) * t

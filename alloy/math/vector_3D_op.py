@@ -6,12 +6,13 @@
 """
 import numpy as np
 from pyquaternion import Quaternion
-from .basic import * 
+from .basic import *
 
 __all__ = ['skew_symmetric_matrix', 'rotation_matrix_from_axis_angle', 'axis_angles_from_rotation_matrix',
-    'transformation_matrix_from_array', 'inverse_transformation_matrix','ypr_from_quaterion',
-    'rot2D_from_quaternion'
-]
+           'transformation_matrix_from_array', 'inverse_transformation_matrix', 'ypr_from_quaterion',
+           'rot2D_from_quaternion'
+           ]
+
 
 def skew_symmetric_matrix(vec):
     """
@@ -21,7 +22,7 @@ def skew_symmetric_matrix(vec):
     -----------
     vec : numpy array(3,)
         vector array with three elements (x, y, z)
-    
+
     returns:
     --------
     numpy array(3,3)
@@ -33,6 +34,7 @@ def skew_symmetric_matrix(vec):
         [-vec[1], vec[0], 0]
     ]
     return np.array(matrix)
+
 
 def rotation_matrix_from_axis_angle(axis, theta):
     """
@@ -47,16 +49,17 @@ def rotation_matrix_from_axis_angle(axis, theta):
     if np.shape(axis) != (3,):
         raise AttributeError('Axis is incorrect size, must be (3,)')
     axis_hat = skew_symmetric_matrix(axis)
-    #from page 28 of MLS 1994
-    return np.eye(3) + axis_hat * np.sin(theta) + axis_hat.dot(axis_hat) * ( 1 - np.cos(theta))
+    # from page 28 of MLS 1994
+    return np.eye(3) + axis_hat * np.sin(theta) + axis_hat.dot(axis_hat) * (1 - np.cos(theta))
+
 
 def axis_angles_from_rotation_matrix(rot_mat):
     """Convert the rotation matrix into axis angle format
     """
 
-    #FASTER WAY: http://www.euclideanspace.com/maths/geometry/rotations/conversions/matrixToAngle/
+    # FASTER WAY: http://www.euclideanspace.com/maths/geometry/rotations/conversions/matrixToAngle/
 
-    #SLOWER WAY
+    # SLOWER WAY
     q = Quaternion(matrix=rot_mat)
     return q.axis, q.angle
 
@@ -67,57 +70,60 @@ def transformation_matrix_from_array(arr):
     is the [w, x, y, z] is the quaternion that describes the rotation. 
     """
     trans = np.eye(4)
-    trans[0:3,3] = arr[:3] #put in the transformation components
-    quaternion = Quaternion(arr[3:]) #make quaternions
-    trans[0:3,0:3] = quaternion.rotation_matrix
+    trans[0:3, 3] = arr[:3]  # put in the transformation components
+    quaternion = Quaternion(arr[3:])  # make quaternions
+    trans[0:3, 0:3] = quaternion.rotation_matrix
     return trans
+
 
 def ypr_from_quaterion(arr):
     """Calculate the yaw,pitch,roll from a numpy quaternion [w,x,y,z]
     """
     quaternion = Quaternion(arr)
-    yaw, pitch,roll = quaternion.yaw_pitch_roll
+    yaw, pitch, roll = quaternion.yaw_pitch_roll
     return yaw, pitch, roll
+
 
 def rot2D_from_quaternion(arr):
     """ Calculate the 2D rotation (yaw) from a numpy quaternion [w,x,y,z]
     """
     yaw, pitch, roll = ypr_from_quaterion(arr)
     return yaw
-    
+
 
 def inverse_transformation_matrix(m: np.array) -> np.array:
     """Find the inverse of a 3D transformation matrix (4,4), T from the given matrix M, such that
     x = T * (M * x)
-    
+
     Parameters
     ----------
     m : np.array
         The original transformation matrix
-    
+
     Returns
     -------
     np.array
         The inverse of the transformation matrix
     """
 
-    inv_rot = (m[0:3,0:3]).T
+    inv_rot = (m[0:3, 0:3]).T
     inv_m = np.eye(4)
-    inv_m[0:3,3] = -1 * (inv_rot.dot(m[0:3,3]))
-    inv_m[0:3,0:3] = inv_rot
+    inv_m[0:3, 3] = -1 * (inv_rot.dot(m[0:3, 3]))
+    inv_m[0:3, 0:3] = inv_rot
     return inv_m
 
 
 def main():
-    #skew symmetric test
+    # skew symmetric test
     # print(skew_symmetric_matrix(np.array([1,2,3])))
     # vec1 = np.array([0,1,0])
     # vec2 = np.array([1,0,0])
     # skew1 = skew_symmetric_matrix(vec1)
     # print(skew1.dot(vec2)) # [0,0,-1]
-    print(transformation_matrix_from_array(np.array([10,20,300,0.707,0.707,0,0])))
+    print(transformation_matrix_from_array(
+        np.array([10, 20, 300, 0.707, 0.707, 0, 0])))
 
-    ### matrix test
+    # matrix test
     # m1 = transformation_matrix_from_array(np.array([10,20,30,0.707,0.707,0,0]))
     # #m1 = transformation_matrix_from_array(np.array([10,20,30,1,0,0,0]))
     # p1 = np.array([1,5,1,1])

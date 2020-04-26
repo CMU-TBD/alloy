@@ -13,6 +13,7 @@ __all__ = [
     'get_res_path'
 ]
 
+
 def create_ros_header(rospy, frame=""):
     """Creates ros header for a given rospy and frame
 
@@ -53,7 +54,7 @@ def create_res_dir(package_name):
     rp = RosPack()
     try:
         dirpath = rp.get_path(package_name)
-        res_path = os.path.join(dirpath,"res")
+        res_path = os.path.join(dirpath, "res")
         os.mkdir(res_path)
         return res_path
     except ResourceNotFound as err:
@@ -97,7 +98,7 @@ def get_res_path(package_name, res_path=None):
         return None
     if res_path is None:
         res_path = 'res'
-    return os.path.join(dirpath,res_path)
+    return os.path.join(dirpath, res_path)
 
 
 def resolve_res_path(path, package_name=None, res_path=None):
@@ -128,7 +129,7 @@ def resolve_res_path(path, package_name=None, res_path=None):
 
     #Rule (2)
     if package_name:
-        #try to find the ros package
+        # try to find the ros package
         rp = RosPack()
         try:
             dirpath = rp.get_path(package_name)
@@ -137,12 +138,10 @@ def resolve_res_path(path, package_name=None, res_path=None):
             return None
         if res_path is None:
             res_path = 'res'
-        filepath = os.path.join(dirpath,res_path,path)
+        filepath = os.path.join(dirpath, res_path, path)
         if os.path.isfile(filepath):
             return filepath
         else:
             return None
     else:
         return None
-
-       

@@ -3,22 +3,18 @@ import unittest
 import numpy as np
 from alloy.math import * 
 
+import pytest
+
+@pytest.mark.parametrize("input", [0,1,1.05,-1,-1.78,np.pi,-np.pi+0.00001])
+def test_radian_clipping_equal(input):
+    assert input == clip_radian_rotation(input)
+
+@pytest.mark.parametrize("input, expected", [(np.pi + 0.5, -np.pi + 0.5), (-np.pi - 0.5, np.pi - 0.5), (np.pi*10 + 1.4, 1.4), (-np.pi*10 + 0.87, 0.87)])
+def test_radian_clipping_clipped(input, expected):
+    assert pytest.approx(clip_radian_rotation(input),expected)
+
 class TestRotation2DFunction(unittest.TestCase):
 
-    def test_radian_clipping(self):
-
-        # test return cases in between (-np.pi, pi]
-        for val in [0,1,1.05,-1,-1.78,np.pi,-np.pi+0.00001]:
-            with self.subTest(i=val):
-                self.assertEqual(clip_radian_rotation(val), val)
-        
-        # test cases where it is outside of the boundary but less than a full revolution
-        self.assertEqual(clip_radian_rotation(np.pi + 0.5), -np.pi + 0.5)
-        self.assertEqual(clip_radian_rotation(-np.pi - 0.5), np.pi - 0.5)
-
-        # test cases where it goes more than a full revolution
-        self.assertAlmostEqual(clip_radian_rotation(np.pi*10 + 1.4), 1.4, places=6)
-        self.assertAlmostEqual(clip_radian_rotation(-np.pi*10 + 0.87), 0.87, places=6)
 
     def test_degree_to_theta(self):
 
