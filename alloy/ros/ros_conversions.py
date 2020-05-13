@@ -8,7 +8,6 @@ Different functions that convert Ros messages to Numpy array
 import numpy as np
 
 
-
 from geometry_msgs.msg import(
     Wrench,
     Twist,
@@ -16,9 +15,10 @@ from geometry_msgs.msg import(
 )
 
 __all__ = [
-    'numpy_to_wrench','wrench_to_numpy','twist_to_numpy','numpy_to_twist',
-    'pose_to_numpy','dict_to_pose','transform_to_numpy'
+    'numpy_to_wrench', 'wrench_to_numpy', 'twist_to_numpy', 'numpy_to_twist',
+    'pose_to_numpy', 'dict_to_pose', 'transform_to_numpy'
 ]
+
 
 def dict_to_pose(dict_input):
     """
@@ -43,6 +43,7 @@ def dict_to_pose(dict_input):
         p.orientation.w = dict_input["orientation"]["w"]
     return p
 
+
 def numpy_to_wrench(arr):
     """Convert numpy array into wrench
     """
@@ -55,6 +56,7 @@ def numpy_to_wrench(arr):
     msg.torque.z = arr[5]
     return msg
 
+
 def wrench_to_numpy(wrench):
     """Convert Geometry_msgs.Wrench to a numpy array
     where [0:3] are the force and [3:] are torque
@@ -63,10 +65,11 @@ def wrench_to_numpy(wrench):
     arr[0] = wrench.force.x
     arr[1] = wrench.force.y
     arr[2] = wrench.force.z
-    arr[3] = wrench.torque.x 
-    arr[4] = wrench.torque.y 
-    arr[5] = wrench.torque.z 
+    arr[3] = wrench.torque.x
+    arr[4] = wrench.torque.y
+    arr[5] = wrench.torque.z
     return arr
+
 
 def twist_to_numpy(twist):
     """Convert twist to numpy
@@ -80,6 +83,7 @@ def twist_to_numpy(twist):
     arr[5] = twist.angular.z
     return arr
 
+
 def numpy_to_twist(np_arr):
     """Convert a (6,) numpy array to
     twist given linear first, follow by angular
@@ -92,6 +96,7 @@ def numpy_to_twist(np_arr):
     msg.angular.y = np_arr[4]
     msg.angular.z = np_arr[5]
     return msg
+
 
 def pose_to_numpy(pose):
     """Convert Pose to Numpy array 
@@ -107,10 +112,11 @@ def pose_to_numpy(pose):
     arr[6] = pose.orientation.z
     return arr
 
+
 def transform_to_numpy(transform):
     """Convert geometry_msgs/Transform to a Numpy array with 
     format [(translation) (rotation[w,x,y,s])]
-    
+
     Arguments:
         transform {geometry_msgs/Transform} -- Transform message
 

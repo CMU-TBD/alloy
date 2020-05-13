@@ -5,6 +5,7 @@
 #### Added
 - A dedicted `CHANGLOG.md` to track the changes of the package.
 - CI Intergration of Github Action
+- Added `ac_wait_for_server_wrapper` that wraps actionlib's simple wait_for_server command and let us know if its waiting.
 
 #### Changed
 - Migrated some test from unittest to pytest.
