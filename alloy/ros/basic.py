@@ -140,7 +140,7 @@ def ac_wait_for_server_wrapper(wait_for_server_fn: callable, client_name: str,  
         rospy.logdebug(f"wait_for_server responded in time for package {client_name}")
         return True
     else:
-        rospy.logdebug(f"wait_for_server timedout in time for package {client_name}")
+        rospy.logwarn(f"wait_for_server timedout in time for package {client_name}")
 
 
 def resolve_res_path(path, package_name=None, res_path=None):
