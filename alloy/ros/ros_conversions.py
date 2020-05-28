@@ -16,7 +16,7 @@ from geometry_msgs.msg import(
 
 __all__ = [
     'numpy_to_wrench', 'wrench_to_numpy', 'twist_to_numpy', 'numpy_to_twist',
-    'pose_to_numpy', 'dict_to_pose', 'transform_to_numpy'
+    'pose_to_numpy', 'dict_to_pose', 'transform_to_numpy','transform_to_pose'
 ]
 
 
@@ -112,6 +112,25 @@ def pose_to_numpy(pose):
     arr[6] = pose.orientation.z
     return arr
 
+def point_to_numpy(point) -> np.array:
+    """Convert a Geometry_msgs/Point to a (3,) numpy array
+
+    Parameters
+    ----------
+    point : geometry_msgs.msg.Point
+        Point Message       
+
+    Returns
+    -------
+    np.array
+        Numpy array holding the value.
+    """
+    arr = np.zeros((3,))
+    arr[0] = point.x
+    arr[1] = point.y
+    arr[2] = point.z
+    return arr
+
 
 def transform_to_numpy(transform):
     """Convert geometry_msgs/Transform to a Numpy array with 
@@ -133,3 +152,15 @@ def transform_to_numpy(transform):
     arr[5] = transform.rotation.y
     arr[6] = transform.rotation.z
     return arr
+
+def transform_to_pose(transform):
+
+    p = Pose()
+    p.position.x = transform.translation.x
+    p.position.y = transform.translation.y
+    p.position.z = transform.translation.z
+    p.orientation.w = transform.rotation.w
+    p.orientation.x = transform.rotation.x
+    p.orientation.y = transform.rotation.y
+    p.orientation.z = transform.rotation.z
+    return p
