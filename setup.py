@@ -4,7 +4,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(name='alloylib',
-      version='0.1.0',
+      version='0.2.1',
       description='Lab Library for Commonly used Modules/Functions',
       long_description=long_description,
       long_description_content_type="text/markdown",
