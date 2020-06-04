@@ -14,7 +14,8 @@ setuptools.setup(name='alloylib',
       packages=setuptools.find_packages(),
       install_requires=[
           'numpy',
-          'pyquaternion'
+          'pyquaternion',
+          'scipy'
       ],
       license='MIT'
 )

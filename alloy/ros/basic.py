@@ -10,8 +10,10 @@ __all__ = [
     'create_ros_header',
     'resolve_res_path',
     'create_res_dir',
-    'get_res_path'
+    'get_res_path',
+    'ac_wait_for_server_wrapper'
 ]
+
 
 def create_ros_header(rospy, frame=""):
     """Creates ros header for a given rospy and frame
@@ -53,7 +55,7 @@ def create_res_dir(package_name):
     rp = RosPack()
     try:
         dirpath = rp.get_path(package_name)
-        res_path = os.path.join(dirpath,"res")
+        res_path = os.path.join(dirpath, "res")
         os.mkdir(res_path)
         return res_path
     except ResourceNotFound as err:
@@ -97,7 +99,48 @@ def get_res_path(package_name, res_path=None):
         return None
     if res_path is None:
         res_path = 'res'
-    return os.path.join(dirpath,res_path)
+    return os.path.join(dirpath, res_path)
+
+
+def ac_wait_for_server_wrapper(wait_for_server_fn: callable, client_name: str,  timeout: rospy.Duration = rospy.Duration()) -> bool:
+    """Useful wrapper for simple action client's wait for server method. Wraps the method in rospy.logdebug statements that 
+    tell us when we start waiting for server and whether it is blocked
+
+    Parameters
+    ----------
+    wait_for_server_fn : callable
+        The wait_for_server method of the client
+    client_name : str
+        Name of the client or any useful information for debugging
+    timeout : rospy.Duration, optional
+        How long to wait for the server, by default rospy.Duration()
+
+    Returns
+    -------
+    bool
+        Whether the wait_for_server timeout or not 
+
+    Raises
+    ------
+    ValueError
+        [description]
+    ValueError
+        [description]
+    """
+
+    # check make sure its correct
+    if not callable(wait_for_server_fn):
+        raise ValueError("First parameter should be of callable type")
+    if wait_for_server_fn.__name__ != 'wait_for_server':
+        raise ValueError("The method should have name 'wait for server'")
+
+    # try calling it
+    rospy.logdebug(f"Calling wait_for_server for package {client_name}")
+    if wait_for_server_fn(timeout):
+        rospy.logdebug(f"wait_for_server responded in time for package {client_name}")
+        return True
+    else:
+        rospy.logwarn(f"wait_for_server timedout in time for package {client_name}")
 
 
 def resolve_res_path(path, package_name=None, res_path=None):
@@ -128,7 +171,7 @@ def resolve_res_path(path, package_name=None, res_path=None):
 
     #Rule (2)
     if package_name:
-        #try to find the ros package
+        # try to find the ros package
         rp = RosPack()
         try:
             dirpath = rp.get_path(package_name)
@@ -137,12 +180,10 @@ def resolve_res_path(path, package_name=None, res_path=None):
             return None
         if res_path is None:
             res_path = 'res'
-        filepath = os.path.join(dirpath,res_path,path)
+        filepath = os.path.join(dirpath, res_path, path)
         if os.path.isfile(filepath):
             return filepath
         else:
             return None
     else:
         return None
-
-       
