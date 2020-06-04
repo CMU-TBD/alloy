@@ -1,6 +1,10 @@
 # Changelog
 
 
+## [0.2.1] - 2020-06-04
+#### Changed
+- Update README 
+
 ## [0.2.0] - 2020-06-04
 #### Added
 - A dedicted `CHANGLOG.md` to track the changes of the package.
