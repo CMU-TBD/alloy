@@ -11,13 +11,14 @@ import numpy as np
 from geometry_msgs.msg import(
     Wrench,
     Twist,
-    Pose
+    Pose,
+    Point
 )
 
 __all__ = [
     'numpy_to_wrench', 'wrench_to_numpy', 'twist_to_numpy', 'numpy_to_twist',
     'pose_to_numpy', 'dict_to_pose', 'transform_to_numpy','transform_to_pose',
-    'point_to_numpy'
+    'point_to_numpy','numpy_to_point','numpy_to_pose'
 ]
 
 
@@ -113,6 +114,17 @@ def pose_to_numpy(pose):
     arr[6] = pose.orientation.z
     return arr
 
+def numpy_to_pose(pose_np):
+    pose = Pose()
+    pose.position.x = pose_np[0]
+    pose.position.y = pose_np[1]
+    pose.position.z = pose_np[2]
+    pose.orientation.w = pose_np[3]
+    pose.orientation.x = pose_np[4]
+    pose.orientation.y = pose_np[5]
+    pose.orientation.z = pose_np[6]
+    return pose
+
 def point_to_numpy(point) -> np.array:
     """Convert a Geometry_msgs/Point to a (3,) numpy array
 
@@ -132,6 +144,12 @@ def point_to_numpy(point) -> np.array:
     arr[2] = point.z
     return arr
 
+def numpy_to_point(point_np):
+    p = Point()
+    p.x = point_np[0]
+    p.y = point_np[1]
+    p.z = point_np[2]
+    return p
 
 def transform_to_numpy(transform):
     """Convert geometry_msgs/Transform to a Numpy array with 

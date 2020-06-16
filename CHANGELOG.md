@@ -1,6 +1,16 @@
 # Changelog
 
 
+## [Unreleased]
+#### Added
+- **[ros]** Implemented same transformation function (`do_transform_point`,`do_transform_pose`) interface from tf2_geometry_msgs to bypass python3/PyKDL requirements
+- **[math]** Conversion from transformation matrix to array.
+- Test for ros methods
+
+#### Changed
+- Switch to manually declaring the exposed methods in `__init__.py`.
+- Added ROS dependencies to github actions to allow ROS testing
+
 ## [0.2.1] - 2020-06-04
 #### Changed
 - Update README 

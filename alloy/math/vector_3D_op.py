@@ -10,7 +10,7 @@ from .basic import *
 
 __all__ = ['skew_symmetric_matrix', 'rotation_matrix_from_axis_angle', 'axis_angles_from_rotation_matrix',
            'transformation_matrix_from_array', 'inverse_transformation_matrix', 'ypr_from_quaterion',
-           'rot2D_from_quaternion'
+           'rot2D_from_quaternion','transformation_matrix_to_array'
            ]
 
 
@@ -75,6 +75,16 @@ def transformation_matrix_from_array(arr):
     trans[0:3, 0:3] = quaternion.rotation_matrix
     return trans
 
+def transformation_matrix_to_array(mat):
+    arr = np.zeros((7,))
+    quaternion = Quaternion(matrix=mat[0:3,0:3])
+    arr[0:3] = mat[0:3,3]
+    arr[3] = quaternion.w
+    arr[4] = quaternion.x
+    arr[5] = quaternion.y
+    arr[6] = quaternion.z
+    return arr
+
 
 def ypr_from_quaterion(arr):
     """Calculate the yaw,pitch,roll from a numpy quaternion [w,x,y,z]
@@ -111,7 +121,6 @@ def inverse_transformation_matrix(m: np.array) -> np.array:
     inv_m[0:3, 3] = -1 * (inv_rot.dot(m[0:3, 3]))
     inv_m[0:3, 0:3] = inv_rot
     return inv_m
-
 
 def main():
     # skew symmetric test
