@@ -1,6 +1,16 @@
 # Changelog
 
 
+## [0.2.2] - 2020-08-03
+- **[Added]** *[ros]* Implemented same transformation function (`do_transform_point`,`do_transform_pose`) interface from tf2_geometry_msgs to bypass python3/PyKDL requirements
+- **[Added]** *[math]* Conversion from transformation matrix to array.
+- **[Added]** Test for ros methods
+- **[Added]** *[tools]* A function `convert_word_list_to_num_str` that converts a list of literal numbers ('four two') to number string ('42').
+
+#### Changed
+- **[Changed]** Switch to manually declaring the exposed methods in `__init__.py`.
+- **[Changed]** Added ROS dependencies to github actions to allow ROS testing
+
 ## [0.2.1] - 2020-06-04
 #### Changed
 - Update README 

@@ -18,6 +18,10 @@ jobs:
           python-version: [3.6, 3.7, 3.8]
 
     steps:
+    - name: Setup ROS
+      uses: ros-tooling/setup-ros@0.0.20
+      with: 
+        required-ros-distributions: melodic
     - uses: actions/checkout@v2
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v1
@@ -27,6 +31,7 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install .
+        pip install empy pyyaml rospkg
 #     - name: Lint with flake8
 #       run: |
 #         pip install flake8
@@ -36,5 +41,6 @@ jobs:
 #         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Test with pytest
       run: |
+        source /opt/ros/melodic/setup.bash
         pip install pytest
         python -m pytest
