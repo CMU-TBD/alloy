@@ -6,19 +6,20 @@ Different functions that convert Ros messages to Numpy array
 """
 
 import numpy as np
-
+import alloy.math
 
 from geometry_msgs.msg import(
     Wrench,
     Twist,
     Pose,
-    Point
+    Point,
+    Transform
 )
 
 __all__ = [
     'numpy_to_wrench', 'wrench_to_numpy', 'twist_to_numpy', 'numpy_to_twist',
-    'pose_to_numpy', 'dict_to_pose', 'transform_to_numpy','transform_to_pose',
-    'point_to_numpy','numpy_to_point','numpy_to_pose'
+    'pose_to_numpy', 'dict_to_pose', 'transform_to_numpy','numpy_to_transform',
+    'transform_to_pose', 'point_to_numpy','numpy_to_point','numpy_to_pose'
 ]
 
 
@@ -101,7 +102,8 @@ def numpy_to_twist(np_arr):
 
 
 def pose_to_numpy(pose):
-    """Convert Pose to Numpy array 
+    """Convert Pose to Numpy array.
+    Numpy array is of format (position, orientation(w,x,y,z)).
     """
 
     arr = np.zeros((7,))
@@ -115,15 +117,42 @@ def pose_to_numpy(pose):
     return arr
 
 def numpy_to_pose(pose_np):
-    pose = Pose()
-    pose.position.x = pose_np[0]
-    pose.position.y = pose_np[1]
-    pose.position.z = pose_np[2]
-    pose.orientation.w = pose_np[3]
-    pose.orientation.x = pose_np[4]
-    pose.orientation.y = pose_np[5]
-    pose.orientation.z = pose_np[6]
-    return pose
+    """Convert a numpy array (size 7 or 16) to a geometry_msgs/Pose object. Size 7 numpy array is of format (position, orientation(w,x,y,z))
+
+    Args:
+        pose_np (numpy.Array): array to be converted.
+
+    Raises:
+        ArithmeticError: If the given array is not size 7 or 16.
+
+    Returns:
+        Pose: geometry_msgs/Pose object
+    """
+
+    if (np.size(pose_np) == 7):
+        # use this to correct (7,1) to (7)
+        pose_np = np.reshape(pose_np, (7,))
+
+        pose = Pose()
+        pose.position.x = pose_np[0]
+        pose.position.y = pose_np[1]
+        pose.position.z = pose_np[2]
+        pose.orientation.w = pose_np[3]
+        pose.orientation.x = pose_np[4]
+        pose.orientation.y = pose_np[5]
+        pose.orientation.z = pose_np[6]
+        return pose
+    elif (np.size(pose_np) == 16):
+        # use this to make a 4x4 matrix
+        pose_np = np.reshape(pose_np, (4,4))
+        # TODO varify it's a valid matrix
+
+        # convert to a 7x7 array & pass to the base function
+        flat_arr = alloy.math.transformation_matrix_to_array(pose_np)
+        return numpy_to_pose(flat_arr)
+    else:
+        raise ArithmeticError(f"numpy array size is not 7 or 16: Actual size:{np.size(pose_np)}")
+
 
 def point_to_numpy(point) -> np.array:
     """Convert a Geometry_msgs/Point to a (3,) numpy array
@@ -155,7 +184,7 @@ def transform_to_numpy(transform):
     """Convert geometry_msgs/Transform to a Numpy array with 
     format [(translation) (rotation[w,x,y,s])]
 
-    Arguments:
+    Args:
         transform {geometry_msgs/Transform} -- Transform message
 
     Return:
@@ -172,7 +201,37 @@ def transform_to_numpy(transform):
     arr[6] = transform.rotation.z
     return arr
 
-def transform_to_pose(transform):
+def numpy_to_transform(arr: np.array) -> Transform:
+    """Convert a (7,) Numpy array with format [(translation) (rotation[w,x,y,s])]
+    into a geometry_msgs/Transform
+
+    Args:
+        arr (np.array): The transform array
+
+    Returns:
+        Transform: A geometry_msgs object
+    """
+
+    transform = Transform()
+    transform.translation.x = arr[0]
+    transform.translation.y = arr[1]
+    transform.translation.z = arr[2]
+    transform.rotation.w = arr[3]
+    transform.rotation.x = arr[4]
+    transform.rotation.y = arr[5]
+    transform.rotation.z = arr[6]
+    return transform
+
+
+def transform_to_pose(transform: Transform) -> Pose:
+    """Convert a geometry_msgs/Transform to geometry_msgs/Pose.
+
+    Args:
+        transform (Transform): The transform message.
+
+    Returns:
+        Pose: The pose message.
+    """
 
     p = Pose()
     p.position.x = transform.translation.x

@@ -19,6 +19,12 @@ class TestSpatialFunction(unittest.TestCase):
         self.assertEqual(box2.half_extents[2], 3)
         self.assertEqual(box2.half_extents[1], 2.5)
 
+    def test_box_creation_center(self):
+        box = Box([5,5,0],[6,6,1])
+        self.assertEqual(box.center[0], 5.5)
+        self.assertEqual(box.center[1], 5.5)
+        self.assertEqual(box.center[2], 0.5)
+
     def test_box_point_intercept(self):
         
         box1 = Box(5,5,5,2,2,2)

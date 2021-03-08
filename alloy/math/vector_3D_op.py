@@ -5,12 +5,13 @@
 3D(R^3) Vector operations
 """
 import numpy as np
+import typing 
 from pyquaternion import Quaternion
 from .basic import *
 
 __all__ = ['skew_symmetric_matrix', 'rotation_matrix_from_axis_angle', 'axis_angles_from_rotation_matrix',
            'transformation_matrix_from_array', 'inverse_transformation_matrix', 'ypr_from_quaterion',
-           'rot2D_from_quaternion','transformation_matrix_to_array'
+           'rot2D_from_quaternion','transformation_matrix_to_array','rpy_to_quaternion'
            ]
 
 
@@ -92,6 +93,25 @@ def ypr_from_quaterion(arr):
     quaternion = Quaternion(arr)
     yaw, pitch, roll = quaternion.yaw_pitch_roll
     return yaw, pitch, roll
+
+def rpy_to_quaternion(roll:float = 0, pitch:float = 0, yaw: float = 0) -> typing.List[float]:
+    """ Get a quaternion [w,x,y,z] that encodes the rotation along the 3 principle axis. The rotations
+    are intrinsic in which the Y-axis for pitch is the transformed Y-axis instead of the original Y-axis.
+    The operations is first transform by roll, then pitch, and finally yaw.
+
+    Args:
+        roll (float, optional): Radian around X-Axis. Defaults to 0.
+        pitch (float, optional): Radian around Y-Axis. Defaults to 0.
+        yaw (float, optional): Radian around Z-Axis. Defaults to 0.
+
+    Returns:
+        typing.List[float]: An array [w,x,y,z] that describe the quaternion
+    """
+    quaternion = Quaternion(axis=[1,0,0], radians=roll) * Quaternion(axis=[0,1,0], radians=pitch) * Quaternion(axis=[0,0,1], radians=yaw)
+    return quaternion.normalised.elements
+    yaw, pitch, roll = quaternion.yaw_pitch_roll
+    return yaw, pitch, roll
+
 
 
 def rot2D_from_quaternion(arr):

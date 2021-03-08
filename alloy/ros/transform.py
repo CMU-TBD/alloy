@@ -9,7 +9,8 @@ from geometry_msgs.msg import(
 )
 
 __all__ = [
-    'do_transform_point'
+    'do_transform_point',
+    'do_transform_pose'
 ]
 
 def do_transform_point(transform: Transform, point: Point) -> Point:

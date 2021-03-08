@@ -69,7 +69,7 @@ class Box():
         max_points = np.array(max_points)
         diff = max_points - min_points
 
-        self.center = diff/2
+        self.center = min_points + (diff/2)
         self.length = diff[0]
         self.half_extents[0] = diff[0]/2
         self.width = diff[1]
