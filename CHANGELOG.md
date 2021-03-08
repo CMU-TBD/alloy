@@ -3,6 +3,7 @@
 ## [0.2.3] - 2021-03-08
 - **[Added]** *[math]* Added `rpy_to_quaternion`.
 - **[Fixed]** *[spatial]* Box now has a the correct center when created with min/max points.
+- **[Fixed]** *[spatial]* Box now has static method `inflate_box` that returns a new box with inflated parameters.
 
 ## [0.2.2] - 2020-08-03
 - **[Added]** *[ros]* Implemented same transformation function (`do_transform_point`,`do_transform_pose`) interface from tf2_geometry_msgs to bypass python3/PyKDL requirements

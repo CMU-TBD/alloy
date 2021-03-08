@@ -1,4 +1,6 @@
 
+import copy
+
 import numpy as np
 from ...math import inverse_transformation_matrix
 from .line import Line
@@ -76,6 +78,23 @@ class Box():
         self.half_extents[1] = diff[1]/2
         self.height = diff[2]
         self.half_extents[2] = diff[2]/2
+
+    @staticmethod
+    def inflate_box(curr_box: 'Box', length: float = 0, width: float = 0, height: float = 0) -> 'Box':
+        """Return a new inflated box according to the sizes.
+
+        """
+
+        box = copy.deepcopy(curr_box)
+        box.length += length
+        box.half_extents[0] += length/2
+        box.width += width
+        box.half_extents[1] += width/2
+        box.height += height
+        box.half_extents[2] += height/2
+
+        return box
+
 
     def contains_point(self, point: np.array):
 
