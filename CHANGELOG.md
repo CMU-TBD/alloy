@@ -2,6 +2,7 @@
 
 ## [0.2.3] - 2021-03-08
 - **[Added]** *[math]* Added `rpy_to_quaternion`.
+- **[Added]** *[spatial]* Additional test for points in box & check for current size.
 - **[Fixed]** *[spatial]* Box now has a the correct center when created with min/max points.
 - **[Fixed]** *[spatial]* Box now has static method `inflate_box` that returns a new box with inflated parameters.
 

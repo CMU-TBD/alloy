@@ -96,13 +96,15 @@ class Box():
         return box
 
 
-    def contains_point(self, point: np.array):
+    def contains_point(self, point: np.array) -> bool:
 
         # change point to T format
         if np.size(point, 0) == 3:
             new_point = np.ones((4,))
             new_point[0:3] = point
             point = new_point
+        elif np.size(point, 0) != 4:
+            raise AttributeError("point not the correct size")
 
         # create the transformation matrix
         T = np.eye(4)
