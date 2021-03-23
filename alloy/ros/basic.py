@@ -15,7 +15,7 @@ __all__ = [
 ]
 
 
-def create_ros_header(rospy, frame=""):
+def create_ros_header(rs, frame: str = "", stamp: rospy.Time = None):
     """Creates ros header for a given rospy and frame
 
     parameters
@@ -31,7 +31,7 @@ def create_ros_header(rospy, frame=""):
         Header message
     """
     msg = std_msgs.msg.Header()
-    msg.stamp = rospy.Time.now()
+    msg.stamp = rs.get_rostime()
     msg.frame_id = frame
 
     return msg
@@ -137,10 +137,12 @@ def ac_wait_for_server_wrapper(wait_for_server_fn: callable, client_name: str,  
     # try calling it
     rospy.logdebug(f"Calling wait_for_server for package {client_name}")
     if wait_for_server_fn(timeout):
-        rospy.logdebug(f"wait_for_server responded in time for package {client_name}")
+        rospy.logdebug(
+            f"wait_for_server responded in time for package {client_name}")
         return True
     else:
-        rospy.logwarn(f"wait_for_server timedout in time for package {client_name}")
+        rospy.logwarn(
+            f"wait_for_server timedout in time for package {client_name}")
 
 
 def resolve_res_path(path, package_name=None, res_path=None):
