@@ -1,7 +1,8 @@
 # Changelog
 
-## [Unreleased]
+## [0.2.4] - 2021-03-30
 - **[Changed]** *[ros]* you can pass time stamp to the header creator.
+- **[Fixed]** Path issue that cause `spatial` not showing up in pypi distributions.
 
 ## [0.2.3] - 2021-03-08
 - **[Added]** *[math]* Added `rpy_to_quaternion`.
