@@ -11,7 +11,7 @@ from .basic import *
 
 __all__ = ['skew_symmetric_matrix', 'rotation_matrix_from_axis_angle', 'axis_angles_from_rotation_matrix',
            'transformation_matrix_from_array', 'inverse_transformation_matrix', 'ypr_from_quaterion',
-           'rot2D_from_quaternion','transformation_matrix_to_array','rpy_to_quaternion'
+           'rot2D_from_quaternion','transformation_matrix_to_array','rpy_to_quaternion','rotation_matrix_to_quaternion'
            ]
 
 
@@ -53,6 +53,9 @@ def rotation_matrix_from_axis_angle(axis, theta):
     # from page 28 of MLS 1994
     return np.eye(3) + axis_hat * np.sin(theta) + axis_hat.dot(axis_hat) * (1 - np.cos(theta))
 
+def rotation_matrix_to_quaternion(rot_mat):
+    q = Quaternion(matrix=rot_mat)
+    return np.array([q.w, q.x, q.y, q.z])
 
 def axis_angles_from_rotation_matrix(rot_mat):
     """Convert the rotation matrix into axis angle format

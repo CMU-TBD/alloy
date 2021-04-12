@@ -1,5 +1,8 @@
 # Changelog
 
+## [Unreleased]
+- **[Added]** extracting quaternion from matrix.
+
 ## [0.2.4] - 2021-03-30
 - **[Changed]** *[ros]* you can pass time stamp to the header creator.
 - **[Fixed]** Path issue that cause `spatial` not showing up in pypi distributions.
