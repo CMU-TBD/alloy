@@ -1,7 +1,8 @@
 # Changelog
 
-## [Unreleased]
+## [0.2.5] - 2021-05-27
 - **[Added]** extracting quaternion from matrix.
+- **[Added]** *[ros]* generic convertor `to_pose` and `to_pose_stamped`
 
 ## [0.2.4] - 2021-03-30
 - **[Changed]** *[ros]* you can pass time stamp to the header creator.

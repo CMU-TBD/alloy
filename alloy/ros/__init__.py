@@ -25,7 +25,9 @@ try:
         transform_to_pose,
         point_to_numpy,
         numpy_to_point,
-        numpy_to_pose
+        numpy_to_pose,
+        to_pose,
+        to_pose_stamped
     )
 
     from .transform import (
