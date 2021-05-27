@@ -2,7 +2,9 @@ import alloy.ros
 from geometry_msgs.msg import(
     Point,
     Pose,
-    Transform
+    Transform,
+    TransformStamped,
+    PoseStamped
 )
 import pytest
 
@@ -80,3 +82,40 @@ def test_pose_transform():
     assert pt.orientation.z == pytest.approx(0)    
     assert pt.orientation.y == pytest.approx(0)    
     assert pt.orientation.w == pytest.approx(0)    
+
+def is_empty_pose(p: Pose):
+    assert p.position.x == 0
+    assert p.position.y == 0
+    assert p.position.z == 0
+    assert p.orientation.w == 0
+    assert p.orientation.x == 0
+    assert p.orientation.y == 0
+    assert p.orientation.z == 0
+
+def test_to_pose_success():
+    # test empty + types 
+    is_empty_pose(alloy.ros.to_pose(Transform()))
+    is_empty_pose(alloy.ros.to_pose(Pose()))
+    is_empty_pose(alloy.ros.to_pose(PoseStamped()))
+    is_empty_pose(alloy.ros.to_pose(TransformStamped()))
+
+    # test some converts
+    t = Transform()
+    t.rotation.w = 0.7071068
+    t.rotation.x = 0.7071068
+    t.translation.y = 10
+    t.translation.z = 5
+    p = alloy.ros.to_pose(t)
+    assert p.position.x == t.translation.x
+    assert p.position.y == t.translation.y
+    assert p.position.z == t.translation.z
+    assert p.orientation.x == t.rotation.x
+    assert p.orientation.y == t.rotation.y
+    assert p.orientation.z == t.rotation.z
+    assert p.orientation.w == t.rotation.w
+
+
+
+def test_to_pose_failed():
+    assert alloy.ros.to_pose("x") is None
+    assert alloy.ros.to_pose(None) is None

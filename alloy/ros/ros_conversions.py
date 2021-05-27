@@ -5,6 +5,7 @@
 Different functions that convert Ros messages to Numpy array
 """
 
+import typing
 import numpy as np
 import alloy.math
 
@@ -13,13 +14,17 @@ from geometry_msgs.msg import(
     Twist,
     Pose,
     Point,
-    Transform
+    Transform,
+    TransformStamped,
+    PoseStamped
 )
+import rospy
 
 __all__ = [
     'numpy_to_wrench', 'wrench_to_numpy', 'twist_to_numpy', 'numpy_to_twist',
     'pose_to_numpy', 'dict_to_pose', 'transform_to_numpy','numpy_to_transform',
-    'transform_to_pose', 'point_to_numpy','numpy_to_point','numpy_to_pose'
+    'transform_to_pose', 'point_to_numpy','numpy_to_point','numpy_to_pose', 'to_pose',
+    'to_pose_stamped'
 ]
 
 
@@ -200,6 +205,60 @@ def transform_to_numpy(transform):
     arr[5] = transform.rotation.y
     arr[6] = transform.rotation.z
     return arr
+
+
+def to_pose(msg) -> typing.Optional[Pose]:
+    """Convert incoming msg to geometry_msgs/Pose. Returns None if unconvertable. 
+
+    Args:
+        msg (Any): ROS Message.
+
+    Returns:
+        typing.Optional[Pose]: The Message data in Pose. None if unconvertable.
+    """
+
+    if type(msg) == PoseStamped:
+        msg: PoseStamped
+        return msg.pose
+    elif type(msg) == Transform:
+        p = Pose()
+        p.position.x = msg.translation.x
+        p.position.y = msg.translation.y
+        p.position.z = msg.translation.z
+        p.orientation.w = msg.rotation.w
+        p.orientation.x = msg.rotation.x
+        p.orientation.y = msg.rotation.y
+        p.orientation.z = msg.rotation.z
+        return p 
+    elif type(msg) == TransformStamped:
+        return to_pose(msg.transform)
+    elif type(msg) == Pose:
+        return msg
+    else:
+        rospy.logerr(f"unable to convert {type(msg)} to Pose")
+        return None
+
+
+def to_pose_stamped(msg) -> typing.Optional[PoseStamped]:
+    """Convert incoming msg to geometry_msgs/PoseStamped. Returns None if unconvertable. 
+
+    Args:
+        msg (Any): ROS Message.
+
+    Returns:
+        typing.Optional[PoseStamped]: The Message data in PoseStamped. None if unconvertable.
+    """
+
+    ps = PoseStamped()
+    if type(msg) == TransformStamped:
+        ps.header = msg.header
+        ps.pose = to_pose(msg.transform)
+    elif type(msg) == PoseStamped:
+        return msg
+    else:
+        rospy.logerr(f"unable to convert {type(msg)} to PoseStamped")
+        return None
+
 
 def numpy_to_transform(arr: np.array) -> Transform:
     """Convert a (7,) Numpy array with format [(translation) (rotation[w,x,y,s])]
