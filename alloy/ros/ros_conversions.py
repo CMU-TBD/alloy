@@ -253,6 +253,7 @@ def to_pose_stamped(msg) -> typing.Optional[PoseStamped]:
     if type(msg) == TransformStamped:
         ps.header = msg.header
         ps.pose = to_pose(msg.transform)
+        return ps
     elif type(msg) == PoseStamped:
         return msg
     else:

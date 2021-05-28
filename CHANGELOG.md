@@ -1,5 +1,8 @@
 # Changelog
 
+## [Unreleased]
+- **[Fixed]** bug where poseStamped wasn't return in `to_pose_stamped`
+
 ## [0.2.5] - 2021-05-27
 - **[Added]** extracting quaternion from matrix.
 - **[Added]** *[ros]* generic convertor `to_pose` and `to_pose_stamped`
