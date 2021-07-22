@@ -23,7 +23,9 @@ def create_ros_header(rs, frame: str = "", stamp: rospy.Time = None):
     rospy: rospy object
         You must pass in the rospy object as the time is relative to it.
     frame: string (optional)
-        The frame of the header, if it's empty, it means the global frame
+        The frame of the header, if it's empty, it means the global frame.
+    stamp: rospy.Time (optional)
+        The time of the header, if its None, the current time is used.
 
     returns
     -------
