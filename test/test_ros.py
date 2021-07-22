@@ -1,12 +1,17 @@
-import alloy.ros
-from geometry_msgs.msg import(
-    Point,
-    Pose,
-    Transform,
-    TransformStamped,
-    PoseStamped
-)
 import pytest
+#test if ros exist
+import alloy.ros
+try:
+    from geometry_msgs.msg import(
+        Point,
+        Pose,
+        Transform,
+        TransformStamped,
+        PoseStamped
+    )
+except (ImportError, ModuleNotFoundError):
+    pytest.skip("skipping ROS tests because ROS is not installed.", allow_module_level=True)
+
 
 def test_point_transform():
     p = Point(x=1,y=2,z=3)
