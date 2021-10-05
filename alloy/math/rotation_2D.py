@@ -69,11 +69,11 @@ def theta_to_clock(rad: float) -> int:
 
     rad = clip_radian_rotation(rad)
     clock_hand = -(rad/0.523599)
+    clock_hand = np.rint(clock_hand)
     if clock_hand <= 0:
         clock_hand += 12
     if clock_hand > 12:
         clock_hand -= 12
-    clock_hand = np.rint(clock_hand)
     return int(clock_hand.item(0))
 
 
