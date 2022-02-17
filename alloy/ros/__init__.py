@@ -28,7 +28,8 @@ try:
         numpy_to_pose,
         to_pose,
         to_pose_stamped,
-        to_point
+        to_point,
+        to_transform
     )
 
     from .transform import (

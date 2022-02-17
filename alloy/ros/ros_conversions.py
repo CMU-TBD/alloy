@@ -24,7 +24,7 @@ __all__ = [
     'numpy_to_wrench', 'wrench_to_numpy', 'twist_to_numpy', 'numpy_to_twist',
     'pose_to_numpy', 'dict_to_pose', 'transform_to_numpy','numpy_to_transform',
     'transform_to_pose', 'point_to_numpy','numpy_to_point','numpy_to_pose', 'to_pose',
-    'to_pose_stamped', "to_point"
+    'to_pose_stamped', "to_point", "to_transform"
 ]
 
 
@@ -264,6 +264,35 @@ def to_pose(msg) -> typing.Optional[Pose]:
     elif isinstance(msg, np.ndarray):
         if np.shape(msg) == (7,) or np.shape(msg) == (4, 4):
             return numpy_to_pose(msg)
+    else:
+        rospy.logerr(f"unable to convert {type(msg)} to Pose")
+        return None
+
+def to_transform(msg) -> typing.Optional[Transform]:
+    """Convert incoming msg to geometry_msgs/Transform. Returns None if unconvertable.
+
+    Args:
+        msg (Any): ROS Message
+
+    Returns:
+        typing.Optional[Pose]: The Message data in Transform. None if unconvertable.
+    """
+
+    if type(msg) == TransformStamped:
+        msg: TransformStamped
+        return msg.transform
+    elif type(msg) == Pose:
+        t = Transform()
+        t.translation.x = msg.position.x
+        t.translation.y = msg.position.y
+        t.translation.z = msg.position.z
+        t.rotation.w = msg.orientation.w
+        t.rotation.x = msg.orientation.x
+        t.rotation.y = msg.orientation.y
+        t.rotation.z = msg.orientation.z
+        return t
+    elif type(msg) == Transform:
+        return msg
     else:
         rospy.logerr(f"unable to convert {type(msg)} to Pose")
         return None
