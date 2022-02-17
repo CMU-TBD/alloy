@@ -11,7 +11,7 @@ def test_radian_clipping_equal(input):
 
 @pytest.mark.parametrize("input, expected", [(np.pi + 0.5, -np.pi + 0.5), (-np.pi - 0.5, np.pi - 0.5), (np.pi*10 + 1.4, 1.4), (-np.pi*10 + 0.87, 0.87)])
 def test_radian_clipping_clipped(input, expected):
-    assert pytest.approx(clip_radian_rotation(input),expected)
+    np.testing.assert_allclose(clip_radian_rotation(input), expected)
 
 class TestRotation2DFunction(unittest.TestCase):
 
