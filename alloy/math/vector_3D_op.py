@@ -5,13 +5,12 @@
 3D(R^3) Vector operations
 """
 import numpy as np
-import typing 
+import typing
 from pyquaternion import Quaternion
-from .basic import *
 
 __all__ = ['skew_symmetric_matrix', 'rotation_matrix_from_axis_angle', 'axis_angles_from_rotation_matrix',
            'transformation_matrix_from_array', 'inverse_transformation_matrix', 'ypr_from_quaterion',
-           'rot2D_from_quaternion','transformation_matrix_to_array','rpy_to_quaternion','rotation_matrix_to_quaternion'
+           'rot2D_from_quaternion', 'transformation_matrix_to_array', 'rpy_to_quaternion', 'rotation_matrix_to_quaternion'
            ]
 
 
@@ -44,8 +43,8 @@ def rotation_matrix_from_axis_angle(axis, theta):
 
     Notes
     -----
-    This is similar to the exponential rotation(R = exp(\omega_hat,theta)) as it uses the Rodrigues formula,
-    where \omega_hat is the skew symmetric matrix of the axis and theta is the rotation.
+    This is similar to the exponential rotation(R = exp(\\omega_hat,theta)) as it uses the Rodrigues formula,
+    where \\omega_hat is the skew symmetric matrix of the axis and theta is the rotation.
     """
     if np.shape(axis) != (3,):
         raise AttributeError('Axis is incorrect size, must be (3,)')
@@ -53,9 +52,11 @@ def rotation_matrix_from_axis_angle(axis, theta):
     # from page 28 of MLS 1994
     return np.eye(3) + axis_hat * np.sin(theta) + axis_hat.dot(axis_hat) * (1 - np.cos(theta))
 
+
 def rotation_matrix_to_quaternion(rot_mat):
     q = Quaternion(matrix=rot_mat)
     return np.array([q.w, q.x, q.y, q.z])
+
 
 def axis_angles_from_rotation_matrix(rot_mat):
     """Convert the rotation matrix into axis angle format
@@ -69,9 +70,9 @@ def axis_angles_from_rotation_matrix(rot_mat):
 
 
 def transformation_matrix_from_array(arr):
-    """Create a 3D Transformation matrix from an array that has 7 elements. 
+    """Create a 3D Transformation matrix from an array that has 7 elements.
     The first three elements is the [x,y,z] of the translation, the next four
-    is the [w, x, y, z] is the quaternion that describes the rotation. 
+    is the [w, x, y, z] is the quaternion that describes the rotation.
     """
     trans = np.eye(4)
     trans[0:3, 3] = arr[:3]  # put in the transformation components
@@ -79,10 +80,11 @@ def transformation_matrix_from_array(arr):
     trans[0:3, 0:3] = quaternion.rotation_matrix
     return trans
 
+
 def transformation_matrix_to_array(mat):
     arr = np.zeros((7,))
-    quaternion = Quaternion(matrix=mat[0:3,0:3])
-    arr[0:3] = mat[0:3,3]
+    quaternion = Quaternion(matrix=mat[0:3, 0:3])
+    arr[0:3] = mat[0:3, 3]
     arr[3] = quaternion.w
     arr[4] = quaternion.x
     arr[5] = quaternion.y
@@ -97,7 +99,8 @@ def ypr_from_quaterion(arr):
     yaw, pitch, roll = quaternion.yaw_pitch_roll
     return yaw, pitch, roll
 
-def rpy_to_quaternion(roll:float = 0, pitch:float = 0, yaw: float = 0) -> typing.List[float]:
+
+def rpy_to_quaternion(roll: float = 0, pitch: float = 0, yaw: float = 0) -> typing.List[float]:
     """ Get a quaternion [w,x,y,z] that encodes the rotation along the 3 principle axis. The rotations
     are intrinsic in which the Y-axis for pitch is the transformed Y-axis instead of the original Y-axis.
     The operations is first transform by roll, then pitch, and finally yaw.
@@ -110,11 +113,11 @@ def rpy_to_quaternion(roll:float = 0, pitch:float = 0, yaw: float = 0) -> typing
     Returns:
         typing.List[float]: An array [w,x,y,z] that describe the quaternion
     """
-    quaternion = Quaternion(axis=[1,0,0], radians=roll) * Quaternion(axis=[0,1,0], radians=pitch) * Quaternion(axis=[0,0,1], radians=yaw)
+    quaternion = Quaternion(axis=[1, 0, 0], radians=roll) * Quaternion(axis=[0, 1, 0],
+                                                                       radians=pitch) * Quaternion(axis=[0, 0, 1], radians=yaw)
     return quaternion.normalised.elements
     yaw, pitch, roll = quaternion.yaw_pitch_roll
     return yaw, pitch, roll
-
 
 
 def rot2D_from_quaternion(arr):
@@ -144,6 +147,7 @@ def inverse_transformation_matrix(m: np.array) -> np.array:
     inv_m[0:3, 3] = -1 * (inv_rot.dot(m[0:3, 3]))
     inv_m[0:3, 0:3] = inv_rot
     return inv_m
+
 
 def main():
     # skew symmetric test
