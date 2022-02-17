@@ -1,9 +1,10 @@
 # Changelog
 
-## [Unreleased]
+## [0.3.0] - 2022-02-16
 - **[Fixed]** bug where poseStamped wasn't return in `to_pose_stamped`
 - **[Added]** `alloy.interaction.dialog` that provides useful methods to preprocess dialog/interactions.
 - **[Added]** *[ros]* generic converter `to_point`.
+- **[Added]** *[ros]* generic converter `to_transform`.
 
 ## [0.2.5] - 2021-05-27
 - **[Added]** extracting quaternion from matrix.
